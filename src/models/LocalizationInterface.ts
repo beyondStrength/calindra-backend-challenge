@@ -1,5 +1,5 @@
 export interface Localization {
     name?: string
-    lat?: number
-    lng?: number
+    lat: number
+    lng: number
 }

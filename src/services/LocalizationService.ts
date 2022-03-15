@@ -1,49 +1,31 @@
+import { AdaptLocalization } from "../adapters/AdaptLocalization";
 import { Localization } from "../models/LocalizationInterface"
-import NodeGeocoder from "node-geocoder"
 import { CalculateDistances } from './CalculateDistances'
-import * as env from 'dotenv'
-
-env.config({ path: '../.env' })
-
-const { geocode } = NodeGeocoder({
-  provider: 'google',
-  apiKey: process.env.API_KEY
-})
 
 export class LocalizationService 
-{
-    static async ft_adapt_location(address: string): Promise<Localization>
+{  
+
+    static async ft_map_all_localizations(addresses: string[]): Promise<Localization[]>
     {
-        const res = await geocode(address)
-        const location: Localization = {
-            name:   res[0].formattedAddress,
-            lat:    res[0].latitude,
-            lng:    res[0].longitude
-        }
-        return location
-    }
-    
-    static async ft_map_all_locations(addresses: string[]): Promise<Localization[]>
-    {
-        return Promise.all(addresses.map(async (location) => {
-            return (await this.ft_adapt_location(location))
+        return Promise.all(addresses.map(async (localization) => {
+            return (await AdaptLocalization.ft_adapt_localization(localization))
         }))
     }
     
     static async ft_handle_distances(addresses: string[]): Promise<any[]>
     {
-        const all_locations: Localization[] = (await this.ft_map_all_locations(addresses));
+        const all_localizations: Localization[] = (await this.ft_map_all_localizations(addresses));
         const distances = []
     
-        for (let i = 0; i < all_locations.length-1; i++)
+        for (let i = 0; i < all_localizations.length-1; i++)
         { 
-            for (let j = i+1; j < all_locations.length; j++)
+            for (let j = i+1; j < all_localizations.length; j++)
             {
                 distances.push(
                 {
-                    current_location: all_locations[i],
-                    next_location: all_locations[j],
-                    distance: CalculateDistances.ft_calculate_euclidian_distance(all_locations[i], all_locations[j])
+                    current_location: all_localizations[i],
+                    next_location: all_localizations[j],
+                    distance: CalculateDistances.ft_calculate_euclidian_distance(all_localizations[i], all_localizations[j])
                 })
             }
         }

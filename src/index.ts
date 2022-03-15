@@ -4,10 +4,18 @@ import express from 'express';
 const app = express();
 const port = 8000;
 
-app.get('/v1/api/', async (req: any, res) => {
-    res.send(await LocalizationService.ft_handle_distances(req.query.address))
+app.get('/v1/api/', async (req, res) => {
+    const addresses = req.query.address
+    if (typeof(addresses) === "string")
+        res.send({
+            title: "BAD REQUEST",
+            code: 400,
+            message: "At least 2 addresses are required."})
+    else
+        res.send(await LocalizationService.ft_handle_distances(addresses as string[]))
+        
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Calculate Distance API listening on port ${port}`)
 })
