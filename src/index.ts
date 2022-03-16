@@ -17,5 +17,5 @@ app.get('/v1/api/', async (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Calculate Distance API listening on port ${port}`)
+    console.log(`Find Nearest API listening on port ${port}`)
 })

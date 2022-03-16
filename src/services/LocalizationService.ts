@@ -25,7 +25,7 @@ export class LocalizationService
                 {
                     current_location: all_localizations[i],
                     next_location: all_localizations[j],
-                    distance: CalculateDistances.ft_calculate_euclidian_distance(all_localizations[i], all_localizations[j])
+                    distance: CalculateDistances.ft_calculate_euclidean_distance(all_localizations[i], all_localizations[j])
                 })
             }
         }
