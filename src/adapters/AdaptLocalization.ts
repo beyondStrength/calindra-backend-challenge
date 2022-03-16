@@ -1,6 +1,8 @@
 import { Localization } from "../models/LocalizationInterface"
+import { config } from "dotenv";
 import NodeGeocoder from 'node-geocoder';
-require('dotenv').config() 
+
+config();
 
 const options: NodeGeocoder.Options = {
     provider: "google",
@@ -9,11 +11,8 @@ const options: NodeGeocoder.Options = {
 
 const geoCoder = NodeGeocoder(options);
 
-export class AdaptLocalization 
-{
-    static async ft_adapt_localization(address: string): Promise<Localization>
-    {
-        
+export class AdaptLocalization  {
+    static async ft_adapt_localization(address: string): Promise<Localization>  {
         const raw_location_data = await geoCoder.geocode(address)
         const localization: Localization = {
             name:   raw_location_data[0].formattedAddress,

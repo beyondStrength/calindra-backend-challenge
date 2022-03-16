@@ -2,18 +2,15 @@ import { AdaptLocalization } from "../adapters/AdaptLocalization";
 import { Localization } from "../models/LocalizationInterface"
 import { CalculateDistances } from './CalculateDistances'
 
-export class LocalizationService 
-{  
+export class LocalizationService    {  
 
-    static async ft_map_all_localizations(addresses: string[]): Promise<Localization[]>
-    {
+    static async ft_map_all_localizations(addresses: string[]): Promise<Localization[]> {
         return Promise.all(addresses.map(async (localization) => {
             return (await AdaptLocalization.ft_adapt_localization(localization))
         }))
     }
     
-    static async ft_sort_distances(addresses: string[]): Promise<any[]>
-    {
+    static async ft_sort_distances(addresses: string[]): Promise<any[]> {
         const all_localizations: Localization[] = (await this.ft_map_all_localizations(addresses));
         const localization_combs = []
     
@@ -31,13 +28,7 @@ export class LocalizationService
         }
     
         return localization_combs.sort((first_comb, second_comb) => {
-            if (first_comb.distance > second_comb.distance) { 
-                return 1;
-              } else if (first_comb.distance < second_comb.distance) {
-                return -1;
-              } else {
-                return 0; 
-              }
+            return first_comb.distance - second_comb.distance;
         })
     }
 }
