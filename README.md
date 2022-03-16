@@ -35,7 +35,7 @@ or
   
 
 browser
-- Base URL = "http://localhost:8000/v1/api/?"  
+- Base URL = [http://localhost:8000/v1/api/?](http://localhost:8000/v1/api/?)  
 - query params = address  
 
 
