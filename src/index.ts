@@ -12,7 +12,7 @@ app.get('/v1/api/', async (req, res) => {
             code: 400,
             message: "At least 2 addresses are required."})
     else
-        res.send(await LocalizationService.ft_handle_distances(addresses as string[]))
+        res.send(await LocalizationService.ft_sort_distances(addresses as string[]))
         
 })
 

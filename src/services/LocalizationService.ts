@@ -12,28 +12,28 @@ export class LocalizationService
         }))
     }
     
-    static async ft_handle_distances(addresses: string[]): Promise<any[]>
+    static async ft_sort_distances(addresses: string[]): Promise<any[]>
     {
         const all_localizations: Localization[] = (await this.ft_map_all_localizations(addresses));
-        const distances = []
+        const localization_combs = []
     
-        for (let i = 0; i < all_localizations.length-1; i++)
+        for (let current = 0; current < all_localizations.length-1; current++)
         { 
-            for (let j = i+1; j < all_localizations.length; j++)
+            for (let next = current+1; next < all_localizations.length; next++)
             {
-                distances.push(
+                localization_combs.push(
                 {
-                    current_location: all_localizations[i],
-                    next_location: all_localizations[j],
-                    distance: CalculateDistances.ft_calculate_euclidean_distance(all_localizations[i], all_localizations[j])
+                    current_location: all_localizations[current],
+                    next_location: all_localizations[next],
+                    distance: CalculateDistances.ft_calculate_euclidian_distance(all_localizations[current], all_localizations[next])
                 })
             }
         }
     
-        return distances.sort((current_location, next_location) => {
-            if (current_location.distance > next_location.distance) { 
+        return localization_combs.sort((first_comb, second_comb) => {
+            if (first_comb.distance > second_comb.distance) { 
                 return 1;
-              } else if (current_location.distance < next_location.distance) {
+              } else if (first_comb.distance < second_comb.distance) {
                 return -1;
               } else {
                 return 0; 
